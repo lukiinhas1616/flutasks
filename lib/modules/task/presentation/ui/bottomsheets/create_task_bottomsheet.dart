@@ -10,7 +10,22 @@ class CreateTaskBottomSheet extends StatelessWidget {
     final descriptionTecController = TextEditingController();
     return Wrap(
       children: [
-        Padding(
+        Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(24),
+              topRight: Radius.circular(24),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withAlpha(25),
+                spreadRadius: 1,
+                blurRadius: 20,
+                offset: const Offset(0, -4),
+              ),
+            ],
+          ),
           padding: EdgeInsets.only(
             top: 32,
             left: 32,

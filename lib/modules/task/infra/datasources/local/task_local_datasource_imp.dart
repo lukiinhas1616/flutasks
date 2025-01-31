@@ -4,6 +4,7 @@ import 'package:flutasks/core/shared/domain/services/local_storage_service.dart'
 import 'package:flutasks/modules/task/domain/entities/task_entity.dart';
 import 'package:flutasks/modules/task/domain/parameters/create_task_parameters.dart';
 import 'package:flutasks/modules/task/domain/parameters/delete_task_parameters.dart';
+import 'package:flutasks/modules/task/domain/parameters/search_task_parameterrs.dart';
 import 'package:flutasks/modules/task/domain/parameters/toggle_task_status_parameters.dart';
 import 'package:flutasks/modules/task/infra/datasources/task_datasource.dart';
 import 'package:flutasks/modules/task/infra/dtos/task_response_dto.dart';
@@ -33,9 +34,10 @@ class TaskLocalDataSourceImp implements TaskDataSource {
   Future<void> delete(DeleteTaskParameters parameters) async {
     final tasks = await getAll();
     tasks.removeWhere((task) => task.id == parameters.id);
+    final tasksMap = tasks.map((task) => TaskResponseDto.toMap(task)).toList();
     await _localStorageService.save(
       'tasks',
-      jsonEncode({'tasks': tasks}),
+      jsonEncode({'tasks': tasksMap}),
     );
   }
 
@@ -66,5 +68,14 @@ class TaskLocalDataSourceImp implements TaskDataSource {
       jsonEncode({'tasks': tasksMap}),
     );
     return tasks;
+  }
+
+  @override
+  Future<List<TaskEntity>> search(SearchTaskParameters parameters) async {
+    final tasks = await getAll();
+    return tasks
+        .where((task) =>
+            task.title.toLowerCase().contains(parameters.text.toLowerCase()))
+        .toList();
   }
 }

@@ -56,11 +56,10 @@ class _TasksPageState extends State<TasksPage> {
     return Scaffold(
       appBar: const GlobalAppbarWidget(),
       bottomNavigationBar: GlobalBottomBarWidget(
+        currentIndex: 0,
         onTap: (int index) {
           if (index == 1) {
             bloc.add(const ShowCreateComponentEvent());
-          } else {
-            Modular.to.navigate('/profile');
           }
         },
       ),
@@ -76,6 +75,7 @@ class _TasksPageState extends State<TasksPage> {
           if (state is ShowCreateComponentState) {
             final result = showModalBottomSheet(
               context: context,
+              barrierColor: Colors.transparent,
               isScrollControlled: true,
               builder: (context) {
                 return const CreateTaskBottomSheet();

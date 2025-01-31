@@ -9,12 +9,14 @@ class TaskCardWidget extends StatefulWidget {
     required this.onExpand,
     required this.task,
     required this.onToggleStatus,
+    this.onDelete,
   });
 
   final bool expanded;
   final Function(String v) onExpand;
   final Function(TaskEntity v) onToggleStatus;
   final TaskEntity task;
+  final Function(String v)? onDelete;
 
   @override
   State<TaskCardWidget> createState() => _TaskCardWidgetState();
@@ -41,6 +43,7 @@ class _TaskCardWidgetState extends State<TaskCardWidget> {
         task: widget.task,
         onExpand: widget.onExpand,
         onToggleStatus: widget.onToggleStatus,
+        onDelete: widget.onDelete ?? null,
       ),
     );
   }
@@ -114,6 +117,7 @@ Widget buildMinimizedTaskCard(
   required TaskEntity task,
   required Function(String v) onExpand,
   required Function(TaskEntity v) onToggleStatus,
+  required Function(String v)? onDelete,
 }) {
   return Container(
     decoration: BoxDecoration(
@@ -151,10 +155,16 @@ Widget buildMinimizedTaskCard(
           ),
           IconButton(
             icon: Icon(
-              Icons.more_horiz_outlined,
+              onDelete != null
+                  ? Icons.delete_outlined
+                  : Icons.more_horiz_outlined,
               color: Theme.of(context).colorScheme.secondary,
             ),
             onPressed: () {
+              if (onDelete != null) {
+                onDelete(task.id);
+                return;
+              }
               onExpand(task.id);
             },
           )

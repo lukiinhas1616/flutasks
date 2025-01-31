@@ -4,9 +4,9 @@ import '../../../../../core/shared/presentation/ui/widgets/global_buttom_widget.
 import '../../../../../core/utils/assets_dir/images_dir.dart';
 
 class TasksEmptyWidget extends StatelessWidget {
-  const TasksEmptyWidget({super.key, required this.onCreateTask});
+  const TasksEmptyWidget({super.key, this.onCreateTask});
 
-  final VoidCallback onCreateTask;
+  final VoidCallback? onCreateTask;
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +26,15 @@ class TasksEmptyWidget extends StatelessWidget {
                 ),
           ),
           const SizedBox(height: 16),
-          SizedBox(
-            width: 180,
-            child: GlobalButtonWidget(
-              label: 'Create task',
-              icon: Icons.add,
-              onPressed: onCreateTask,
+          if (onCreateTask != null)
+            SizedBox(
+              width: 180,
+              child: GlobalButtonWidget(
+                label: 'Create task',
+                icon: Icons.add,
+                onPressed: onCreateTask!,
+              ),
             ),
-          ),
         ],
       ),
     );

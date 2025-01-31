@@ -10,6 +10,9 @@ class GlobalAppbarWidget extends StatelessWidget implements PreferredSize {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      elevation: 0,
+      surfaceTintColor: Colors.white,
+      shadowColor: Colors.transparent,
       backgroundColor: Colors.white,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

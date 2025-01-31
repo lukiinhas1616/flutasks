@@ -1,9 +1,9 @@
 class TaskModuleRoutes {
   const TaskModuleRoutes();
 
-  static const base = '/districts';
+  static const base = '/tasks';
   static const initialRoute = '/';
-  static const createRoute = '$base/create';
-  static const searchRoute = '$base/search';
-  static const doneRoute = '$base/done';
+  static const createRoute = '/create';
+  static const searchRoute = '/search';
+  static const doneRoute = '/done';
 }

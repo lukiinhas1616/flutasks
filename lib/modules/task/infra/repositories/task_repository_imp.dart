@@ -3,6 +3,7 @@ import 'package:flutasks/core/utils/failure/failure.dart';
 import 'package:flutasks/modules/task/domain/entities/task_entity.dart';
 import 'package:flutasks/modules/task/domain/parameters/create_task_parameters.dart';
 import 'package:flutasks/modules/task/domain/parameters/delete_task_parameters.dart';
+import 'package:flutasks/modules/task/domain/parameters/search_task_parameterrs.dart';
 import 'package:flutasks/modules/task/domain/parameters/toggle_task_status_parameters.dart';
 import 'package:flutasks/modules/task/domain/repositories/task_repository.dart';
 import 'package:flutasks/modules/task/infra/datasources/task_datasource.dart';
@@ -59,6 +60,17 @@ class TaskRepositoryImp extends TaskRepository {
     try {
       final result = await taskDataSource.toggleStatus(parameters);
       return Right(result);
+    } catch (e) {
+      return Left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<TaskEntity>>> search(
+      SearchTaskParameters parameters) async {
+    try {
+      final tasks = await taskDataSource.search(parameters);
+      return Right(tasks);
     } catch (e) {
       return Left(Failure(e.toString()));
     }
