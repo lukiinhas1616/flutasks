@@ -78,18 +78,23 @@ ThemeData get globalTheme => ThemeData(
         ),
       ),
       inputDecorationTheme: const InputDecorationTheme(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(4)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(4)),
-        ),
         contentPadding: EdgeInsets.symmetric(
           vertical: 8.0,
           horizontal: 10.0,
         ),
+        border: InputBorder.none,
         hintStyle: TextStyle(
+          fontSize: 14,
           color: Color(0xFFCACBCF),
+          fontWeight: FontWeight.w400,
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: ButtonStyle(
+          padding: WidgetStateProperty.all(const EdgeInsets.all(16)),
+          foregroundColor: WidgetStateProperty.all(
+            const Color(0xff356eff),
+          ),
         ),
       ),
       snackBarTheme: SnackBarThemeData(
