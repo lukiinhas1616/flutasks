@@ -1,19 +1,23 @@
 import 'package:equatable/equatable.dart';
 
 class TaskEntity extends Equatable {
-  const TaskEntity({
+  TaskEntity({
     required this.id,
     required this.title,
     this.description,
-    this.status = false,
+    this.isDone = false,
   });
 
   final String id;
   final String title;
   final String? description;
-  final bool status;
+  bool isDone;
+
+  void toggleStatus() {
+    isDone = !isDone;
+  }
 
   @override
   // TODO: implement props
-  List<Object?> get props => [title, description, status];
+  List<Object?> get props => [title, description, isDone];
 }
