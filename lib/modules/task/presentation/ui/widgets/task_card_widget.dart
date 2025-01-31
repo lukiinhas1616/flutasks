@@ -8,10 +8,12 @@ class TaskCardWidget extends StatefulWidget {
     required this.expanded,
     required this.onExpand,
     required this.task,
+    required this.onToggleStatus,
   });
 
   final bool expanded;
   final Function(String v) onExpand;
+  final Function(TaskEntity v) onToggleStatus;
   final TaskEntity task;
 
   @override
@@ -22,16 +24,24 @@ class _TaskCardWidgetState extends State<TaskCardWidget> {
   @override
   Widget build(BuildContext context) {
     if (widget.expanded) {
-      return buildExpandedTaskCard(
+      return Container(
+        margin: const EdgeInsets.only(top: 8),
+        child: buildExpandedTaskCard(
+          context,
+          task: widget.task,
+          onExpand: widget.onExpand,
+          onToggleStatus: widget.onToggleStatus,
+        ),
+      );
+    }
+    return Container(
+      margin: const EdgeInsets.only(top: 8),
+      child: buildMinimizedTaskCard(
         context,
         task: widget.task,
         onExpand: widget.onExpand,
-      );
-    }
-    return buildMinimizedTaskCard(
-      context,
-      task: widget.task,
-      onExpand: widget.onExpand,
+        onToggleStatus: widget.onToggleStatus,
+      ),
     );
   }
 }
@@ -40,9 +50,12 @@ Widget buildExpandedTaskCard(
   BuildContext context, {
   required TaskEntity task,
   required Function(String v) onExpand,
+  required Function(TaskEntity v) onToggleStatus,
 }) {
   return GestureDetector(
-    onTap: onExpand(task.id),
+    onTap: () {
+      onExpand(task.id);
+    },
     child: Container(
       decoration: BoxDecoration(
         color: Theme.of(context).cardTheme.color,
@@ -59,8 +72,10 @@ Widget buildExpandedTaskCard(
                 height: 24,
                 width: 24,
                 child: Checkbox(
-                  value: true,
-                  onChanged: (v) {},
+                  value: task.isDone,
+                  onChanged: (v) {
+                    onToggleStatus(task);
+                  },
                 ),
               ),
             ),
@@ -69,13 +84,15 @@ Widget buildExpandedTaskCard(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Task 1',
+                    task.title,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.w500,
                         ),
                   ),
                   Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec odio.   ',
+                    task.description!.isEmpty
+                        ? 'Sem descrição'
+                        : task.description!,
                     maxLines: 5,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -96,6 +113,7 @@ Widget buildMinimizedTaskCard(
   BuildContext context, {
   required TaskEntity task,
   required Function(String v) onExpand,
+  required Function(TaskEntity v) onToggleStatus,
 }) {
   return Container(
     decoration: BoxDecoration(
@@ -116,8 +134,10 @@ Widget buildMinimizedTaskCard(
                   height: 24,
                   width: 24,
                   child: Checkbox(
-                    value: false,
-                    onChanged: (v) {},
+                    value: task.isDone,
+                    onChanged: (v) {
+                      onToggleStatus(task);
+                    },
                   ),
                 ),
               ),
@@ -134,7 +154,9 @@ Widget buildMinimizedTaskCard(
               Icons.more_horiz_outlined,
               color: Theme.of(context).colorScheme.secondary,
             ),
-            onPressed: onExpand(task.id),
+            onPressed: () {
+              onExpand(task.id);
+            },
           )
         ],
       ),

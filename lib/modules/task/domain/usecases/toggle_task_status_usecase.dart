@@ -3,10 +3,11 @@ import 'package:flutasks/modules/task/domain/parameters/toggle_task_status_param
 
 import '../../../../core/shared/domain/usecases/async_usecase.dart';
 import '../../../../core/utils/failure/failure.dart';
+import '../entities/task_entity.dart';
 import '../repositories/task_repository.dart';
 
 abstract class ToggleTaskStatusUseCase
-    extends AsyncUseCase<void, ToggleTaskStatusParameters> {
+    extends AsyncUseCase<List<TaskEntity>, ToggleTaskStatusParameters> {
   const ToggleTaskStatusUseCase();
 }
 
@@ -16,7 +17,7 @@ class ToggleTaskStatusUseCaseImp implements ToggleTaskStatusUseCase {
   final TaskRepository repository;
 
   @override
-  Future<Either<Failure, void>> call(
+  Future<Either<Failure, List<TaskEntity>>> call(
     ToggleTaskStatusParameters parameters,
   ) async {
     return await repository.toggleStatus(parameters);

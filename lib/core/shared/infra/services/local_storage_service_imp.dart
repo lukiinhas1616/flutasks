@@ -21,13 +21,13 @@ class LocalStorageServiceImp extends LocalStorageService {
   }
 
   @override
-  Future<void> save(String key, String value) {
-    return _hive.box('tasks_db').put(key, value);
+  Future<void> save(String key, String value) async {
+    return await _hive.box('tasks_db').put(key, value);
   }
 
   @override
-  Future<void> delete(String key) {
-    return _hive.box('tasks_db').delete(key);
+  Future<void> delete(String key) async {
+    return await _hive.box('tasks_db').delete(key);
   }
 
   Future<String> _getPath() async {

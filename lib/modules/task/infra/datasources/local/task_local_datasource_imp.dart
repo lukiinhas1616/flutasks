@@ -22,9 +22,10 @@ class TaskLocalDataSourceImp implements TaskDataSource {
       description: parameters.description,
     );
     tasks.add(task);
+    final tasksMap = tasks.map((task) => TaskResponseDto.toMap(task)).toList();
     await _localStorageService.save(
       'tasks',
-      jsonEncode({'tasks': tasks}),
+      jsonEncode({'tasks': tasksMap}),
     );
   }
 
@@ -46,7 +47,7 @@ class TaskLocalDataSourceImp implements TaskDataSource {
   @override
   Future<List<TaskEntity>> getAll() async {
     final getTasks = await _localStorageService.get('tasks');
-    if (getTasks == null) throw Exception('No task found');
+    if (getTasks == null) return [];
     Map<String, dynamic> decoded = jsonDecode(getTasks);
     List<TaskEntity> tasks = List<TaskEntity>.from(
         decoded['tasks'].map((task) => TaskResponseDto.fromMap(task)));
@@ -54,13 +55,16 @@ class TaskLocalDataSourceImp implements TaskDataSource {
   }
 
   @override
-  Future<void> toggleStatus(ToggleTaskStatusParameters parameters) async {
+  Future<List<TaskEntity>> toggleStatus(
+      ToggleTaskStatusParameters parameters) async {
     final tasks = await getAll();
     final task = tasks.firstWhere((task) => task.id == parameters.id);
     task.toggleStatus();
+    final tasksMap = tasks.map((task) => TaskResponseDto.toMap(task)).toList();
     await _localStorageService.save(
       'tasks',
-      jsonEncode({'tasks': tasks}),
+      jsonEncode({'tasks': tasksMap}),
     );
+    return tasks;
   }
 }

@@ -13,7 +13,7 @@ abstract class TaskRepository {
   Future<Either<Failure, void>> delete(DeleteTaskParameters parameters);
   Future<Either<Failure, void>> deleteAll();
 
-  Future<Either<Failure, void>> toggleStatus(
+  Future<Either<Failure, List<TaskEntity>>> toggleStatus(
     ToggleTaskStatusParameters parameters,
   );
 }

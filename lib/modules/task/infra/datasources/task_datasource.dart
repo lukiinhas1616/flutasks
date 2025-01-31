@@ -8,6 +8,6 @@ abstract class TaskDataSource {
   Future<void> create(CreateTaskParameters parameters);
   Future<void> delete(DeleteTaskParameters parameters);
   Future<void> deleteAll();
-  Future<void> toggleStatus(ToggleTaskStatusParameters parameters);
+  Future<List<TaskEntity>> toggleStatus(ToggleTaskStatusParameters parameters);
   Future<List<TaskEntity>> getAll();
 }

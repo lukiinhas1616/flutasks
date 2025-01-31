@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
 class GlobalBottomBarWidget extends StatelessWidget {
-  const GlobalBottomBarWidget({super.key});
+  const GlobalBottomBarWidget({super.key, required this.onTap});
+
+  final Function(int) onTap;
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
+      onTap: onTap,
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.checklist_outlined),

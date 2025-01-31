@@ -6,6 +6,8 @@ class CreateTaskBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final titleTecController = TextEditingController();
+    final descriptionTecController = TextEditingController();
     return Wrap(
       children: [
         Padding(
@@ -20,6 +22,7 @@ class CreateTaskBottomSheet extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
+                controller: titleTecController,
                 decoration: InputDecoration(
                   hintText: 'What\'s in your mind?',
                   prefixIcon: Icon(
@@ -30,6 +33,7 @@ class CreateTaskBottomSheet extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               TextField(
+                controller: descriptionTecController,
                 minLines: 1,
                 maxLines: 5,
                 decoration: InputDecoration(
@@ -45,7 +49,10 @@ class CreateTaskBottomSheet extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.of(context).pop({
+                      'title': titleTecController.text,
+                      'description': descriptionTecController.text,
+                    });
                   },
                   child: const Text('Create'),
                 ),

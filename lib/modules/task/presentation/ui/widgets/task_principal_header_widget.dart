@@ -1,7 +1,18 @@
 import 'package:flutter/material.dart';
 
 class TaskPrincipalHeader extends StatelessWidget {
-  const TaskPrincipalHeader({super.key});
+  const TaskPrincipalHeader({
+    super.key,
+    required this.tasksIsEmpty,
+    required this.tasksCount,
+  });
+
+  final bool tasksIsEmpty;
+  final int tasksCount;
+
+  String get message => tasksIsEmpty
+      ? 'Create tasks to achieve more.'
+      : 'You\'ve got $tasksCount tasks to do.';
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +39,7 @@ class TaskPrincipalHeader extends StatelessWidget {
           ),
         ),
         Text(
-          'You\'ve got 7 tasks to do.',
+          message,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Theme.of(context).colorScheme.secondary,
               ),
